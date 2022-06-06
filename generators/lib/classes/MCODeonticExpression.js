@@ -1,23 +1,6 @@
 const { addElement } = require('../AddElement');
-const lut = require('../../../lookup-tables/lib/classes/MCODeonticExpression');
-
-const modelObj = {
-  identifier: 'string',
-  textClauses: 'arrayRef',
-  metadata: 'map',
-  issuedIn: 'ref',
-  act: 'ref',
-  actedBySubject: 'ref',
-  actObjects: 'arrayRef',
-  resultantObject: 'arrayRef',
-  constraints: 'arrayRef',
-  issuer: 'ref',
-  percentage: 'number',
-  incomePercentage: 'number',
-  isExclusive: 'boolean',
-  hasSublicenseRight: 'boolean',
-  extra: 'map',
-};
+const { MCODeonticExpression: lut } = require('../../../lookup-tables');
+const { mcoDeonticExpressionObj } = require('./../types/MCODeonticExpression');
 
 const generateMCODeonticExpression = (classData, payload, actionType) => {
   const obj = { '@type': classData };
@@ -38,10 +21,11 @@ const generateMCODeonticExpression = (classData, payload, actionType) => {
         default:
           break;
       }
-      addElement(modelObj, obj, lutTemp, payload[k], k);
+      addElement(mcoDeonticExpressionObj, obj, lutTemp, payload[k], k);
     } else if (lut[k] !== undefined)
-      addElement(modelObj, obj, lut[k], payload[k], k);
-    else if (k === 'extra') addElement(modelObj, obj, undefined, payload[k], k);
+      addElement(mcoDeonticExpressionObj, obj, lut[k], payload[k], k);
+    else if (k === 'extra')
+      addElement(mcoDeonticExpressionObj, obj, undefined, payload[k], k);
   });
 
   return obj;

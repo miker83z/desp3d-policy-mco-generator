@@ -5,5 +5,6 @@
   "mco-core": "urn:mpeg:mpeg21:mco:core:2012#",
   "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
   "mco-pane": "urn:mpeg:mpeg21:mco:pane:2015#",
-  "mco-rele": "urn:mpeg:mpeg21:mco:rele:2015#"
+  "mco-rele": "urn:mpeg:mpeg21:mco:rele:2015#",
+  "dpv": "http://www.w3.org/ns/dpv#"
 }

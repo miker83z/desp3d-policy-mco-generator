@@ -1,6 +1,36 @@
 const rdf = require('rdflib');
 const lut = require('./lookup-tables').AllClasses;
 const generators = require('./generators/');
+const contextObj = require('./context');
+
+const formatFromMediaContractualObjects = (mediaContractObject) => {
+  const finalMediaContractualObjects = {};
+  // Search for all contract objects
+  Object.keys(mediaContractObject).forEach((contractKey) => {
+    if (
+      contractKey === 'parties' ||
+      contractKey === 'otherPersonUsers' ||
+      contractKey === 'deontics' ||
+      contractKey === 'actions' ||
+      contractKey === 'objects' ||
+      contractKey === 'textClauses' ||
+      contractKey === 'facts' ||
+      contractKey === 'signatories'
+    ) {
+      const temp = [];
+      Object.keys(mediaContractObject[contractKey]).forEach((elementKey) => {
+        temp.push(elementKey);
+        finalMediaContractualObjects[elementKey] =
+          mediaContractObject[contractKey][elementKey];
+      });
+      mediaContractObject[contractKey] = temp;
+    }
+  });
+  finalMediaContractualObjects[mediaContractObject.identifier] =
+    mediaContractObject;
+
+  return finalMediaContractualObjects;
+};
 
 const generator = (classData, payload) => {
   switch (classData[1]) {
@@ -53,7 +83,12 @@ const jsonld2turtle = (jsonldString, store, uri) => {
   });
 };
 
-const getMCOFromContract = async (mediaContractualObjects, contextObj) => {
+const getMCOFromContract = async (mediaContractualObjects) => {
+  mediaContractualObjects = formatFromMediaContractualObjects(
+    mediaContractualObjects
+  );
+
+  console.log(mediaContractualObjects);
   const jsonLD = { '@context': contextObj, '@graph': [] };
 
   // Search for all objects

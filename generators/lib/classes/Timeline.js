@@ -1,17 +1,15 @@
 const { addElement } = require('../AddElement');
-const lut = require('../../../lookup-tables/lib/classes/Track');
-
-const modelObj = {
-  identifier: 'string',
-  extra: 'map',
-};
+const { Timeline: lut } = require('../../../lookup-tables');
+const { timelineObj } = require('./../types/Track');
 
 const generateTimeline = (classData, payload) => {
   const obj = { '@type': classData };
 
   Object.keys(payload).forEach((k) => {
-    if (lut[k] !== undefined) addElement(modelObj, obj, lut[k], payload[k], k);
-    else if (k === 'extra') addElement(modelObj, obj, undefined, payload[k], k);
+    if (lut[k] !== undefined)
+      addElement(timelineObj, obj, lut[k], payload[k], k);
+    else if (k === 'extra')
+      addElement(timelineObj, obj, undefined, payload[k], k);
   });
 
   return obj;
