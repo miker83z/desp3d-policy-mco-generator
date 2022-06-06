@@ -1,6 +1,6 @@
 {
-  "name": "mco-generator",
-  "version": "0.8.0",
+  "name": "mco-policy-generator",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
